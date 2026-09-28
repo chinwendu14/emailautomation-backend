@@ -1,14 +1,14 @@
-import express from "express";
+import "dotenv/config";
+import app from "./app.js";
+import connectDatabase from "./config/database.js";
 
-const app = express();
+const PORT = process.env.PORT || 5000;
+const startServer = async (): Promise<void> => {
+  await connectDatabase();
 
-app.use(express.json());
-
-app.get("/api/health", (_req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "MailFlowAI backend is running 🚀",
+  app.listen(PORT, () => {
+    console.log(`🚀 MailFlowAI backend running on port ${PORT}`);
   });
-});
+};
 
-export default app;
+startServer();
